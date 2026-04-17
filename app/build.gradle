@@ -3,12 +3,6 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
-def keystorePropertiesFile = rootProject.file("key.properties")
-def keystoreProperties = new Properties()
-if (keystorePropertiesFile.exists()) {
-    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-}
-
 android {
     namespace "com.pandora.carlauncher"
     compileSdk 34
@@ -23,18 +17,20 @@ android {
 
     signingConfigs {
         release {
-            keyAlias keystoreProperties['keyAlias'] ?: 'release'
-            keyPassword keystoreProperties['keyPassword'] ?: 'qq900236'
-            storeFile file(keystoreProperties['storeFile'] ?: 'app/keystore/release.jks')
-            storePassword keystoreProperties['storePassword'] ?: 'qq900236'
+            storeFile file('keystore/release.jks')
+            storePassword 'qq900236'
+            keyAlias 'release'
+            keyPassword 'qq900236'
         }
     }
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             signingConfig signingConfigs.release
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.debug
         }
     }
 
@@ -60,6 +56,4 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.7.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
-    implementation 'androidx.datastore:datastore-preferences:1.0.0'
-    implementation 'com.google.code.gson:gson:2.10.1'
 }
