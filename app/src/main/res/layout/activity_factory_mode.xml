@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_medium">
+
+            <!-- Toolbar -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/btn_back"
+                    android:layout_width="@dimen/touch_target_min"
+                    android:layout_height="@dimen/touch_target_min"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@android:drawable/ic_menu_revert"
+                    app:tint="@color/text_primary" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_medium"
+                    android:layout_weight="1"
+                    android:text="@string/factory_mode"
+                    android:textColor="@color/text_primary"
+                    android:textSize="@dimen/text_size_title"
+                    android:textStyle="bold" />
+
+                <!-- 工厂模式标识 -->
+                <TextView
+                    android:id="@+id/factory_mode_badge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/error"
+                    android:paddingHorizontal="@dimen/spacing_small"
+                    android:paddingVertical="@dimen/spacing_xs"
+                    android:text="FACTORY"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_small"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <!-- 警告提示 -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                app:cardBackgroundColor="@color/error"
+                app:cardCornerRadius="@dimen/card_corner_radius">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/card_padding"
+                    android:text="警告：工厂模式仅供专业人员使用！"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_body" />
+            </androidx.cardview.widget.CardView>
+
+            <!-- 测试项目列表 -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_touch_calibration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                app:cardBackgroundColor="@color/card_background"
+                app:cardCornerRadius="@dimen/card_corner_radius">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/card_padding">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_size_large"
+                        android:layout_height="@dimen/icon_size_large"
+                        android:src="@android:drawable/ic_menu_edit"
+                        app:tint="@color/primary" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_medium"
+                        android:layout_weight="1"
+                        android:text="@string/touch_calibration"
+                        android:textColor="@color/text_primary"
+                        android:textSize="@dimen/text_size_subtitle" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_can_log"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                app:cardBackgroundColor="@color/card_background"
+                app:cardCornerRadius="@dimen/card_corner_radius">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/card_padding">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_size_large"
+                        android:layout_height="@dimen/icon_size_large"
+                        android:src="@android:drawable/ic_menu_info_details"
+                        app:tint="@color/primary" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_medium"
+                        android:layout_weight="1"
+                        android:text="@string/can_log"
+                        android:textColor="@color/text_primary"
+                        android:textSize="@dimen/text_size_subtitle" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_speaker_test"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                app:cardBackgroundColor="@color/card_background"
+                app:cardCornerRadius="@dimen/card_corner_radius">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/card_padding">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_size_large"
+                        android:layout_height="@dimen/icon_size_large"
+                        android:src="@android:drawable/ic_lock_silent_mode_off"
+                        app:tint="@color/primary" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_medium"
+                        android:layout_weight="1"
+                        android:text="@string/speaker_test"
+                        android:textColor="@color/text_primary"
+                        android:textSize="@dimen/text_size_subtitle" />
+
+                    <Button
+                        android:id="@+id/btn_speaker_test"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="开始测试"
+                        android:textSize="@dimen/text_size_caption" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_gps_test"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                app:cardBackgroundColor="@color/card_background"
+                app:cardCornerRadius="@dimen/card_corner_radius">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/card_padding">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_size_large"
+                        android:layout_height="@dimen/icon_size_large"
+                        android:src="@android:drawable/ic_menu_compass"
+                        app:tint="@color/primary" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_medium"
+                        android:layout_weight="1"
+                        android:text="@string/gps_test"
+                        android:textColor="@color/text_primary"
+                        android:textSize="@dimen/text_size_subtitle" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_sensor_test"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                app:cardBackgroundColor="@color/card_background"
+                app:cardCornerRadius="@dimen/card_corner_radius">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/card_padding">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_size_large"
+                        android:layout_height="@dimen/icon_size_large"
+                        android:src="@android:drawable/ic_menu_manage"
+                        app:tint="@color/primary" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_medium"
+                        android:layout_weight="1"
+                        android:text="@string/sensor_test"
+                        android:textColor="@color/text_primary"
+                        android:textSize="@dimen/text_size_subtitle" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_factory_reset"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                app:cardBackgroundColor="@color/error"
+                app:cardCornerRadius="@dimen/card_corner_radius">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/card_padding">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_size_large"
+                        android:layout_height="@dimen/icon_size_large"
+                        android:src="@android:drawable/ic_menu_delete"
+                        app:tint="@color/white" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_medium"
+                        android:layout_weight="1"
+                        android:text="@string/factory_reset"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_subtitle" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 测试结果 -->
+            <TextView
+                android:id="@+id/tv_test_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:background="@color/card_background"
+                android:padding="@dimen/card_padding"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_size_caption"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:padding="@dimen/spacing_medium">
+
+    <!-- 标题 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/media_center"
+        android:textColor="@color/text_primary"
+        android:textSize="@dimen/text_size_title"
+        android:textStyle="bold" />
+
+    <!-- 媒体来源选择 -->
+    <Spinner
+        android:id="@+id/spinner_source"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:background="@color/card_background"
+        android:padding="@dimen/spacing_small" />
+
+    <!-- 专辑封面和播放信息 -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_medium"
+        app:cardBackgroundColor="@color/card_background"
+        app:cardCornerRadius="@dimen/card_corner_radius"
+        app:cardElevation="@dimen/card_elevation">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/card_padding">
+
+            <ImageView
+                android:id="@+id/iv_album_art"
+                android:layout_width="@dimen/album_art_size"
+                android:layout_height="@dimen/album_art_size"
+                android:scaleType="centerCrop"
+                android:src="@android:drawable/ic_menu_gallery" />
+
+            <TextView
+                android:id="@+id/tv_song_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:text="未播放"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_size_title" />
+
+            <TextView
+                android:id="@+id/tv_artist_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_xs"
+                android:text="未知艺术家"
+                android:textColor="@color/text_secondary"
+                android:textSize="@dimen/text_size_caption" />
+
+            <TextView
+                android:id="@+id/tv_album_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="未知专辑"
+                android:textColor="@color/text_hint"
+                android:textSize="@dimen/text_size_small" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- 进度条 -->
+    <SeekBar
+        android:id="@+id/seek_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:progressTint="@color/media_progress"
+        android:thumbTint="@color/media_progress" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_current_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0:00"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_size_small" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/tv_total_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0:00"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_size_small" />
+    </LinearLayout>
+
+    <!-- 播放控制按钮 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btn_prev"
+            android:layout_width="@dimen/media_control_button_size"
+            android:layout_height="@dimen/media_control_button_size"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_media_previous"
+            app:tint="@color/text_primary" />
+
+        <ImageButton
+            android:id="@+id/btn_play_pause"
+            android:layout_width="@dimen/media_control_button_size"
+            android:layout_height="@dimen/media_control_button_size"
+            android:layout_marginHorizontal="@dimen/spacing_large"
+            android:background="@drawable/bg_circle_button"
+            android:src="@android:drawable/ic_media_play"
+            app:tint="@color/text_primary" />
+
+        <ImageButton
+            android:id="@+id/btn_next"
+            android:layout_width="@dimen/media_control_button_size"
+            android:layout_height="@dimen/media_control_button_size"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_media_next"
+            app:tint="@color/text_primary" />
+
+    </LinearLayout>
+
+    <!-- 音量控制 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btn_volume"
+            android:layout_width="@dimen/touch_target_min"
+            android:layout_height="@dimen/touch_target_min"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_lock_silent_mode_off"
+            app:tint="@color/text_secondary" />
+
+        <SeekBar
+            android:id="@+id/seek_volume"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:layout_weight="1"
+            android:max="100"
+            android:progress="50" />
+
+    </LinearLayout>
+
+    <!-- 媒体列表 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:text="播放列表"
+        android:textColor="@color/text_secondary"
+        android:textSize="@dimen/text_size_caption" />
+
+    <ListView
+        android:id="@+id/lv_media_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_weight="1"
+        android:divider="@color/divider"
+        android:dividerHeight="@dimen/divider_height" />
+
+</LinearLayout>

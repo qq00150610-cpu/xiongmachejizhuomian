@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="@dimen/item_padding">
+
+    <ImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="@dimen/item_icon_size"
+        android:layout_height="@dimen/item_icon_size"
+        android:scaleType="centerInside"
+        android:src="@android:drawable/ic_menu_gallery" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_medium"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_size_body" />
+
+        <TextView
+            android:id="@+id/tv_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_xs"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_size_caption" />
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/btn_more"
+        android:layout_width="@dimen/touch_target_min"
+        android:layout_height="@dimen/touch_target_min"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@android:drawable/ic_menu_more"
+        app:tint="@color/text_hint"
+        xmlns:app="http://schemas.android.com/apk/res-auto" />
+
+</LinearLayout>

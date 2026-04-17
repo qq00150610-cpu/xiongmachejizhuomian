@@ -1,0 +1,392 @@
+package com.pandora.carlauncher.modules.appmanager
+
+import android.content.Intent
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.os.Build
+import android.os.Bundle
+import android.os.Process
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
+import androidx.cardview.widget.CardView
+import androidx.fragment.app.Fragment
+import com.pandora.carlauncher.R
+import kotlinx.coroutines.*
+
+/**
+ * 应用列表Fragment
+ * 
+ * 功能：
+ * - 显示已安装应用列表
+ * - 应用搜索
+ * - 应用卸载
+ * - 强制停止应用
+ * - 显示应用详情
+ */
+class AppListFragment : Fragment() {
+
+    companion object {
+        private const val TAG = "AppListFragment"
+    }
+
+    // 协程作用域
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
+
+    // UI控件
+    private lateinit var searchEditText: EditText
+    private lateinit var appListView: ListView
+    private lateinit var loadingProgress: ProgressBar
+    private lateinit var categoryTabs: TabLayout
+    private lateinit var emptyText: TextView
+
+    // 数据
+    private val allApps = mutableListOf<AppInfo>()
+    private val filteredApps = mutableListOf<AppInfo>()
+    private lateinit var appAdapter: AppListAdapter
+    
+    // 当前分类
+    private var currentCategory = CATEGORY_ALL
+
+    // 分类常量
+    companion object {
+        const val CATEGORY_ALL = 0
+        const val CATEGORY_SYSTEM = 1
+        const val CATEGORY_USER = 2
+        const val CATEGORY_FREQUENT = 3
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_app_list, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initViews(view)
+        setupListeners()
+        loadApps()
+    }
+
+    /**
+     * 初始化视图
+     */
+    private fun initViews(view: View) {
+        searchEditText = view.findViewById(R.id.et_search)
+        appListView = view.findViewById(R.id.lv_apps)
+        loadingProgress = view.findViewById(R.id.progress_loading)
+        categoryTabs = view.findViewById(R.id.tab_category)
+        emptyText = view.findViewById(R.id.tv_empty)
+
+        // 初始化适配器
+        appAdapter = AppListAdapter(requireContext(), filteredApps)
+        appListView.adapter = appAdapter
+        
+        // 设置分类标签
+        setupCategoryTabs()
+    }
+
+    /**
+     * 设置分类标签
+     */
+    private fun setupCategoryTabs() {
+        categoryTabs.addTab(categoryTabs.newTab().setText("全部"))
+        categoryTabs.addTab(categoryTabs.newTab().setText("系统"))
+        categoryTabs.addTab(categoryTabs.newTab().setText("用户"))
+        categoryTabs.addTab(categoryTabs.newTab().setText("常用"))
+        
+        categoryTabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                currentCategory = tab?.position ?: CATEGORY_ALL
+                filterApps()
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+        })
+    }
+
+    /**
+     * 设置监听器
+     */
+    private fun setupListeners() {
+        // 搜索框文字变化监听
+        searchEditText.addTextChangedListener(object : android.text.TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: android.text.Editable?) {
+                filterApps()
+            }
+        })
+
+        // 应用列表项点击
+        appListView.setOnItemClickListener { _, _, position, _ ->
+            val app = filteredApps[position]
+            openApp(app)
+        }
+
+        // 应用列表项长按
+        appListView.setOnItemLongClickListener { _, _, position, _ ->
+            val app = filteredApps[position]
+            showAppOptions(app)
+            true
+        }
+    }
+
+    /**
+     * 加载应用列表
+     */
+    private fun loadApps() {
+        loadingProgress.visibility = View.VISIBLE
+        emptyText.visibility = View.GONE
+
+        scope.launch(Dispatchers.IO) {
+            allApps.clear()
+            
+            val pm = requireContext().packageManager
+            val packages = pm.getInstalledApplications(PackageManager.GET_META_DATA)
+
+            packages.forEach { appInfo ->
+                // 过滤系统应用（保留必要的系统应用）
+                val isSystemApp = (appInfo.flags and ApplicationInfo.FLAG_SYSTEM) != 0
+                val isUpdatedSystemApp = (appInfo.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0
+                
+                // 只显示可启动的应用
+                val launchIntent = pm.getLaunchIntentForPackage(appInfo.packageName)
+                if (launchIntent != null) {
+                    val app = AppInfo(
+                        packageName = appInfo.packageName,
+                        appName = pm.getApplicationLabel(appInfo).toString(),
+                        icon = pm.getApplicationIcon(appInfo),
+                        isSystemApp = isSystemApp && !isUpdatedSystemApp,
+                        versionName = getAppVersion(appInfo.packageName),
+                        installTime = getAppInstallTime(appInfo.packageName)
+                    )
+                    allApps.add(app)
+                }
+            }
+
+            // 按名称排序
+            allApps.sortBy { it.appName }
+
+            withContext(Dispatchers.Main) {
+                filterApps()
+                loadingProgress.visibility = View.GONE
+                
+                if (allApps.isEmpty()) {
+                    emptyText.visibility = View.VISIBLE
+                    emptyText.text = "未找到应用"
+                }
+            }
+        }
+    }
+
+    /**
+     * 获取应用版本
+     */
+    private fun getAppVersion(packageName: String): String {
+        return try {
+            val pInfo = requireContext().packageManager.getPackageInfo(packageName, 0)
+            pInfo.versionName ?: "未知"
+        } catch (e: Exception) {
+            "未知"
+        }
+    }
+
+    /**
+     * 获取应用安装时间
+     */
+    private fun getAppInstallTime(packageName: String): Long {
+        return try {
+            val pInfo = requireContext().packageManager.getPackageInfo(packageName, 0)
+            pInfo.firstInstallTime
+        } catch (e: Exception) {
+            0L
+        }
+    }
+
+    /**
+     * 过滤应用列表
+     */
+    private fun filterApps() {
+        filteredApps.clear()
+        
+        val searchText = searchEditText.text.toString().lowercase()
+        
+        allApps.forEach { app ->
+            // 分类过滤
+            val matchCategory = when (currentCategory) {
+                CATEGORY_ALL -> true
+                CATEGORY_SYSTEM -> app.isSystemApp
+                CATEGORY_USER -> !app.isSystemApp
+                CATEGORY_FREQUENT -> true  // TODO: 实现常用应用逻辑
+                else -> true
+            }
+            
+            // 搜索过滤
+            val matchSearch = searchText.isEmpty() ||
+                    app.appName.lowercase().contains(searchText) ||
+                    app.packageName.lowercase().contains(searchText)
+            
+            if (matchCategory && matchSearch) {
+                filteredApps.add(app)
+            }
+        }
+        
+        appAdapter.notifyDataSetChanged()
+        
+        if (filteredApps.isEmpty()) {
+            emptyText.visibility = View.VISIBLE
+            emptyText.text = "未找到匹配的应用"
+        } else {
+            emptyText.visibility = View.GONE
+        }
+    }
+
+    /**
+     * 打开应用
+     */
+    private fun openApp(app: AppInfo) {
+        try {
+            val intent = requireContext().packageManager
+                .getLaunchIntentForPackage(app.packageName)
+            if (intent != null) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+            }
+        } catch (e: Exception) {
+            Toast.makeText(context, "无法打开应用", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    /**
+     * 显示应用选项对话框
+     */
+    private fun showAppOptions(app: AppInfo) {
+        val options = mutableListOf<String>()
+        options.add("打开")
+        
+        // 非系统应用可以卸载
+        if (!app.isSystemApp) {
+            options.add("卸载")
+        }
+        
+        options.add("应用信息")
+        options.add("强制停止")
+
+        AlertDialog.Builder(requireContext())
+            .setTitle(app.appName)
+            .setItems(options.toTypedArray()) { _, which ->
+                when (options[which]) {
+                    "打开" -> openApp(app)
+                    "卸载" -> uninstallApp(app)
+                    "应用信息" -> showAppInfo(app)
+                    "强制停止" -> forceStopApp(app)
+                }
+            }
+            .show()
+    }
+
+    /**
+     * 卸载应用
+     */
+    private fun uninstallApp(app: AppInfo) {
+        val intent = Intent(Intent.ACTION_DELETE)
+        intent.data = android.net.Uri.parse("package:${app.packageName}")
+        startActivity(intent)
+    }
+
+    /**
+     * 显示应用信息
+     */
+    private fun showAppInfo(app: AppInfo) {
+        try {
+            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            intent.data = android.net.Uri.parse("package:${app.packageName}")
+            startActivity(intent)
+        } catch (e: Exception) {
+            Toast.makeText(context, "无法显示应用信息", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    /**
+     * 强制停止应用
+     */
+    private fun forceStopApp(app: AppInfo) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("强制停止")
+            .setMessage("确定要强制停止 ${app.appName} 吗？")
+            .setPositiveButton("确定") { _, _ ->
+                try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        requireContext().packageManager
+                        // 注意：普通应用无法强制停止其他应用，需要系统权限
+                    }
+                } catch (e: Exception) {
+                    Toast.makeText(context, "无法停止应用", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("取消", null)
+            .show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        scope.cancel()
+    }
+}
+
+/**
+ * 应用信息数据类
+ */
+data class AppInfo(
+    val packageName: String,
+    val appName: String,
+    val icon: android.graphics.drawable.Drawable,
+    val isSystemApp: Boolean,
+    val versionName: String,
+    val installTime: Long
+)
+
+/**
+ * 应用列表适配器
+ */
+class AppListAdapter(
+    private val context: Context,
+    private val apps: List<AppInfo>
+) : BaseAdapter() {
+
+    private val inflater = LayoutInflater.from(context)
+
+    override fun getCount(): Int = apps.size
+
+    override fun getItem(position: Int): AppInfo = apps[position]
+
+    override fun getItemId(position: Int): Long = position.toLong()
+
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+        val view = convertView ?: inflater.inflate(R.layout.item_app, parent, false)
+        val app = getItem(position)
+
+        view.findViewById<ImageView>(R.id.iv_app_icon).setImageDrawable(app.icon)
+        view.findViewById<TextView>(R.id.tv_app_name).text = app.appName
+        view.findViewById<TextView>(R.id.tv_package_name).text = app.packageName
+        
+        val systemBadge = view.findViewById<TextView>(R.id.tv_system_badge)
+        if (app.isSystemApp) {
+            systemBadge.visibility = View.VISIBLE
+            systemBadge.text = "系统"
+        } else {
+            systemBadge.visibility = View.GONE
+        }
+
+        return view
+    }
+}

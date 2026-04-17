@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/card_background"
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardElevation="@dimen/elevation_high">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_small">
+
+        <!-- 主页 -->
+        <LinearLayout
+            android:id="@+id/menu_home"
+            android:layout_width="@dimen/floating_menu_item_size"
+            android:layout_height="@dimen/floating_menu_item_size"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:src="@android:drawable/ic_menu_compass"
+                app:tint="@color/text_primary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="主页"
+                android:textColor="@color/text_secondary"
+                android:textSize="@dimen/text_size_small" />
+        </LinearLayout>
+
+        <!-- 返回 -->
+        <LinearLayout
+            android:id="@+id/menu_back"
+            android:layout_width="@dimen/floating_menu_item_size"
+            android:layout_height="@dimen/floating_menu_item_size"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:src="@android:drawable/ic_menu_revert"
+                app:tint="@color/text_primary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="返回"
+                android:textColor="@color/text_secondary"
+                android:textSize="@dimen/text_size_small" />
+        </LinearLayout>
+
+        <!-- 语音 -->
+        <LinearLayout
+            android:id="@+id/menu_voice"
+            android:layout_width="@dimen/floating_menu_item_size"
+            android:layout_height="@dimen/floating_menu_item_size"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:src="@android:drawable/ic_btn_speak_now"
+                app:tint="@color/text_primary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="语音"
+                android:textColor="@color/text_secondary"
+                android:textSize="@dimen/text_size_small" />
+        </LinearLayout>
+
+        <!-- 截图 -->
+        <LinearLayout
+            android:id="@+id/menu_screenshot"
+            android:layout_width="@dimen/floating_menu_item_size"
+            android:layout_height="@dimen/floating_menu_item_size"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:src="@android:drawable/ic_menu_camera"
+                app:tint="@color/text_primary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/screenshot"
+                android:textColor="@color/text_secondary"
+                android:textSize="@dimen/text_size_small" />
+        </LinearLayout>
+
+        <!-- 关闭 -->
+        <LinearLayout
+            android:id="@+id/menu_close"
+            android:layout_width="@dimen/floating_menu_item_size"
+            android:layout_height="@dimen/floating_menu_item_size"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                app:tint="@color/error" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/close"
+                android:textColor="@color/text_secondary"
+                android:textSize="@dimen/text_size_small" />
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

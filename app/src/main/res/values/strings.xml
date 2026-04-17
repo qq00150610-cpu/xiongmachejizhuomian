@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">熊猫车机桌面</string>
+    
+    <!-- 通用 -->
+    <string name="ok">确定</string>
+    <string name="cancel">取消</string>
+    <string name="close">关闭</string>
+    <string name="back">返回</string>
+    <string name="confirm">确认</string>
+    <string name="delete">删除</string>
+    <string name="save">保存</string>
+    <string name="search">搜索</string>
+    <string name="settings">设置</string>
+    <string name="loading">加载中...</string>
+    
+    <!-- 主页面 -->
+    <string name="home">主页</string>
+    <string name="navigation">导航</string>
+    <string name="media">媒体</string>
+    <string name="hvac">空调</string>
+    <string name="apps">应用</string>
+    
+    <!-- 状态栏 -->
+    <string name="wifi">WiFi</string>
+    <string name="bluetooth">蓝牙</string>
+    <string name="gps">GPS</string>
+    <string name="network">网络</string>
+    <string name="connected">已连接</string>
+    <string name="disconnected">已断开</string>
+    
+    <!-- 快速设置 -->
+    <string name="quick_settings">快捷设置</string>
+    <string name="wifi_enabled">WiFi已开启</string>
+    <string name="wifi_disabled">WiFi已关闭</string>
+    <string name="bluetooth_enabled">蓝牙已开启</string>
+    <string name="bluetooth_disabled">蓝牙已关闭</string>
+    <string name="night_mode">夜间模式</string>
+    <string name="driving_mode">驾驶模式</string>
+    <string name="volume">音量</string>
+    <string name="brightness">亮度</string>
+    
+    <!-- 空调控制 -->
+    <string name="hvac_control">空调控制</string>
+    <string name="driver_zone">驾驶座</string>
+    <string name="passenger_zone">副驾驶座</string>
+    <string name="temperature">温度</string>
+    <string name="fan_speed">风量</string>
+    <string name="ac">空调</string>
+    <string name="auto_mode">自动模式</string>
+    <string name="recirculation">内循环</string>
+    <string name="front_defrost">前除霜</string>
+    <string name="rear_defrost">后除霜</string>
+    <string name="vent_mode">风向模式</string>
+    
+    <!-- 媒体中心 -->
+    <string name="media_center">媒体中心</string>
+    <string name="local_music">本地音乐</string>
+    <string name="bluetooth_music">蓝牙音乐</string>
+    <string name="usb_music">USB音乐</string>
+    <string name="sd_music">SD卡音乐</string>
+    <string name="play">播放</string>
+    <string name="pause">暂停</string>
+    <string name="previous">上一首</string>
+    <string name="next">下一首</string>
+    <string name="now_playing">正在播放</string>
+    <string name="no_media">未找到媒体文件</string>
+    
+    <!-- 导航 -->
+    <string name="navigation_search">搜索目的地</string>
+    <string name="search_hint">输入目的地</string>
+    <string name="current_location">当前位置</string>
+    <string name="start_navigation">开始导航</string>
+    <string name="cancel_navigation">取消导航</string>
+    <string name="home_location">家</string>
+    <string name="company_location">公司</string>
+    <string name="search_history">搜索历史</string>
+    <string name="clear_history">清空历史</string>
+    
+    <!-- 应用管理 -->
+    <string name="app_manager">应用管理</string>
+    <string name="all_apps">全部应用</string>
+    <string name="system_apps">系统应用</string>
+    <string name="user_apps">用户应用</string>
+    <string name="app_info">应用信息</string>
+    <string name="uninstall">卸载</string>
+    <string name="force_stop">强制停止</string>
+    <string name="open">打开</string>
+    
+    <!-- 文件管理 -->
+    <string name="file_manager">文件管理</string>
+    <string name="new_folder">新建文件夹</string>
+    <string name="rename">重命名</string>
+    <string name="copy">复制</string>
+    <string name="cut">剪切</string>
+    <string name="paste">粘贴</string>
+    <string name="file_info">文件信息</string>
+    <string name="folder_empty">此目录为空</string>
+    <string name="create_folder">创建文件夹</string>
+    <string name="folder_name">文件夹名称</string>
+    
+    <!-- 工厂模式 -->
+    <string name="factory_mode">工厂模式</string>
+    <string name="touch_calibration">触摸屏校准</string>
+    <string name="display_calibration">显示屏校准</string>
+    <string name="can_log">CAN日志</string>
+    <string name="speaker_test">喇叭测试</string>
+    <string name="gps_test">GPS检测</string>
+    <string name="sensor_test">传感器检测</string>
+    <string name="factory_reset">恢复出厂设置</string>
+    <string name="system_info">系统信息</string>
+    <string name="factory_password">请输入工厂模式密码</string>
+    <string name="password_error">密码错误</string>
+    
+    <!-- 语音助手 -->
+    <string name="voice_assistant">语音助手</string>
+    <string name="listening">正在聆听...</string>
+    <string name="processing">正在处理...</string>
+    <string name="voice_wakeup">语音唤醒</string>
+    <string name="wake_word">你好小熊猫</string>
+    
+    <!-- 悬浮球 -->
+    <string name="floating_ball">悬浮球</string>
+    <string name="screenshot">截图</string>
+    <string name="recent_apps">最近任务</string>
+    
+    <!-- 通知 -->
+    <string name="notification_channel_playback">媒体播放</string>
+    <string name="notification_channel_car">车辆连接</string>
+    <string name="notification_channel_voice">语音助手</string>
+    
+    <!-- 权限 -->
+    <string name="permission_required">需要权限</string>
+    <string name="permission_denied">权限被拒绝</string>
+    <string name="grant_permission">授予权限</string>
+    
+    <!-- 错误 -->
+    <string name="error">错误</string>
+    <string name="error_load_failed">加载失败</string>
+    <string name="error_operation_failed">操作失败</string>
+</resources>
